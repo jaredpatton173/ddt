@@ -10,9 +10,13 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import ddt.data.importer.beans.AdStatsBean;
 import ddt.data.importer.beans.LeadsBean;
 import ddt.data.importer.beans.OrdersBean;
+import ddt.data.importer.dao.AdsDAO;
+import ddt.data.importer.entity.Ad;
 
 public class ImporterEngine {
 
+	private AdsDAO adsDAO;
+	
 	public ImporterEngine() throws IllegalStateException, FileNotFoundException {
 		processAds();
 		processLeads();
@@ -26,8 +30,16 @@ public class ImporterEngine {
 				.build()
 				.parse();
 
-		for(AdStatsBean a : adStats)
+		for(AdStatsBean a : adStats) {
+			Ad newAd = new Ad();
+			newAd.setId(a.getId());
+			newAd.setDate(a.getDate());
+			newAd.setDailyViews(a.getViews());
+			
 			System.out.println(a.getId() + " | " + a.getViews() + " | " + a.getDate().toString());
+			System.out.println(newAd.getId());
+			adsDAO.save(newAd);
+		}
 	}
 
 	private void processLeads() throws IllegalStateException, FileNotFoundException {
