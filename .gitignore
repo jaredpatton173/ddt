@@ -1,3 +1,5 @@
+secureResources/secure.*
+
 # Compiled class file
 *.class
 
