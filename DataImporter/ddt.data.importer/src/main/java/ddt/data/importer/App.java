@@ -1,13 +1,16 @@
 package ddt.data.importer;
 
-/**
- * Hello world!
- *
- */
+import java.io.FileNotFoundException;
+
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+	public static void main( String[] args ) throws IllegalStateException, FileNotFoundException, ArgumentParserException
+	{
+		new ArgumentEngine(args);
+		
+		new ImporterEngine();
+
+	}
 }
