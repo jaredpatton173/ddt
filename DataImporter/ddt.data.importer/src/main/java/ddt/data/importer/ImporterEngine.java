@@ -14,13 +14,13 @@ import ddt.data.importer.dao.AdsDAO;
 import ddt.data.importer.entity.Ad;
 
 public class ImporterEngine {
-
-	private AdsDAO adsDAO;
+	
+	private AdsDAO adsDAO = new AdsDAO();
 	
 	public ImporterEngine() throws IllegalStateException, FileNotFoundException {
 		processAds();
-		processLeads();
-		processOrders();
+//		processLeads();
+//		processOrders();
 	}
 
 	private void processAds() throws IllegalStateException, FileNotFoundException {
@@ -37,7 +37,6 @@ public class ImporterEngine {
 			newAd.setDailyViews(a.getViews());
 			
 			System.out.println(a.getId() + " | " + a.getViews() + " | " + a.getDate().toString());
-			System.out.println(newAd.getId());
 			adsDAO.save(newAd);
 		}
 	}
