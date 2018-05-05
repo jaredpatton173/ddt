@@ -6,9 +6,21 @@
 
 	<changeSet id="1" author="Jared Patton">
 		<addForeignKeyConstraint
-			baseColumnNames="person_id" baseTableName="address"
-			constraintName="fk_address_person" deferrable="true"
-			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
-			referencedColumnNames="id" referencedTableName="person" />
+			baseColumnNames="ad_id" baseTableName="leads"
+			constraintName="fk_lead_ad" onDelete="RESTRICT" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="ad_stats" />
+	</changeSet>
+
+	<changeSet id="2" author="Jared Patton">
+		<addForeignKeyConstraint
+			baseColumnNames="lead_id" baseTableName="orders"
+			constraintName="fk_order_lead" onDelete="RESTRICT"
+			onUpdate="RESTRICT" referencedColumnNames="id"
+			referencedTableName="leads" />
+	</changeSet>
+
+	<changeSet id="3" author="Jared Patton">
+		<renameTable catalogName="ddt" newTableName="ads"
+			oldTableName="ad_stats" schemaName="public" />
 	</changeSet>
 </databaseChangeLog>
