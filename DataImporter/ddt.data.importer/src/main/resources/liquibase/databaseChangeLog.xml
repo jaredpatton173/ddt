@@ -8,5 +8,8 @@
 	
 	<include file="/src/main/resources/liquibase/revision1.xml" />
 	<include file="/src/main/resources/liquibase/revision2.xml" />
+	<include file="/src/main/resources/liquibase/revision3.xml" />
+	<include file="/src/main/resources/liquibase/revision4.xml" />
+	<include file="/src/main/resources/liquibase/revision5.xml" />
 
 </databaseChangeLog>

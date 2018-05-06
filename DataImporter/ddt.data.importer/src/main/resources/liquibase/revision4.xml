@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet id="1" author="Jared Patton">
+		<dropForeignKeyConstraint
+			baseTableName="leads" constraintName="fk_lead_ad" />
+	</changeSet>
+
+	<changeSet id="2" author="Jared Patton">
+		<dropPrimaryKey catalogName="ddt"
+			constraintName="fk_lead_ad" schemaName="public" tableName="ad_stats" />
+	</changeSet>
+
+	<changeSet id="3" author="Jared Patton">
+		<addPrimaryKey catalogName="ddt" columnNames="id, date"
+			constraintName="pk_ad_stats" schemaName="public" tableName="ad_stats"
+			tablespace="Changing primary key to composite primary key." />
+	</changeSet>
+
+</databaseChangeLog>
