@@ -9,8 +9,12 @@ public class App
 	public static void main( String[] args ) throws IllegalStateException, FileNotFoundException, ArgumentParserException
 	{
 		new ArgumentEngine(args);
+
 		
-		new ImporterEngine();
+		if(ArgumentEngine.runImport)
+			new ImporterEngine();
+		else if (ArgumentEngine.runHTML)
+			new HTMLEngine();
 
 	}
 }

@@ -3,15 +3,15 @@ package ddt.data.importer.dao;
 import javax.persistence.EntityManager;
 
 import ddt.data.importer.JPAUtility;
-import ddt.data.importer.entity.Lead;
+import ddt.data.importer.entity.AdStats;
 
-public class LeadsDAO {
+public class AdStatsDAO {
 
 	protected EntityManager em = JPAUtility.getEntityManager();
 
-	public void save(Lead lead) {
+	public void save(AdStats a) {
 		em.getTransaction().begin();
-		em.merge(lead);
+		em.merge(a);
 		em.getTransaction().commit();
 	}
 }

@@ -17,23 +17,27 @@ public class Lead {
 
 	@Id
 	private int id;
-	
+
 	@Column(name="date_of_birth")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name="ad_id")
 	private Ad ad;
-	
+
 	@Column(name="state")
 	private String state;
-	
+
 	@Column(name="created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	
+
 	public Lead() {}
+
+	public Lead(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the id
@@ -64,20 +68,6 @@ public class Lead {
 	}
 
 	/**
-	 * @return the ad
-	 */
-	public Ad getAd() {
-		return ad;
-	}
-
-	/**
-	 * @param ad the ad to set
-	 */
-	public void setAd(Ad ad) {
-		this.ad = ad;
-	}
-
-	/**
 	 * @return the state
 	 */
 	public String getState() {
@@ -104,6 +94,20 @@ public class Lead {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+
+	/**
+	 * @return the ad
+	 */
+	public Ad getAd() {
+		return ad;
+	}
+
+	/**
+	 * @param ad the ad to set
+	 */
+	public void setAd(Ad ad) {
+		this.ad = ad;
+	}
+
+
 }
