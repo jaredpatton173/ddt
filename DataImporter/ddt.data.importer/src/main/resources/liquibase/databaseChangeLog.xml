@@ -11,5 +11,6 @@
 	<include file="/src/main/resources/liquibase/revision3.xml" />
 	<include file="/src/main/resources/liquibase/revision4.xml" />
 	<include file="/src/main/resources/liquibase/revision5.xml" />
+	<include file="/src/main/resources/liquibase/revision6.xml" />
 
 </databaseChangeLog>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<changeSet author="Jared Patton" id="1">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_ad_ctrs">
+				SELECT ads.id as ad_id, (count(leads.id)/SUM(ad_stats.daily_views))*100 AS ctr_percentage
+				FROM ads
+				LEFT JOIN ad_stats ON ad_stats.id = ads.id
+				LEFT JOIN leads ON leads.ad_id = ad_stats.id
+				GROUP BY ads.id
+		</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="2">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_conversions">
+				SELECT leads.*
+				FROM leads
+				INNER JOIN orders ON orders.lead_id=leads.id;</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="3">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_conversion_rate_by_ad">
+				SELECT ads.id as ad_id, (SUM(ad_stats.daily_views)/COUNT(leads.id))*100 AS conversion_rate_percentage
+				FROM ads
+				LEFT JOIN ad_stats ON ad_stats.id = ads.id
+				LEFT JOIN leads ON leads.ad_id = ad_stats.id
+				INNER JOIN orders ON orders.lead_id = leads.id
+				GROUP BY ads.id
+		</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="4">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_conversions_by_state">
+				SELECT leads.ad_id, state, count(leads.id) as leads_in_state
+				FROM leads
+				INNER JOIN orders ON orders.lead_id=leads.id
+				GROUP BY leads.ad_id, leads.state;
+		</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="5">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_average_ad_age">
+				SELECT ads.id, AVG(TIMESTAMPDIFF(YEAR,leads.date_of_birth,CURDATE())) as average_age
+				FROM ads
+				LEFT JOIN ad_stats ON ad_stats.id = ads.id
+				LEFT JOIN leads ON leads.ad_id = ad_stats.id
+				GROUP BY ads.id
+		</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="6">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_total_ad_revenue">
+				SELECT ads.id, SUM((orders.unit_price * orders.quantity) + orders.shipping) AS total_revenue
+				FROM ads
+				LEFT JOIN ad_stats ON ad_stats.id = ads.id
+				LEFT JOIN leads ON leads.ad_id = ad_stats.id
+				LEFT JOIN orders ON orders.lead_id = leads.id
+				GROUP BY ads.ID
+		</createView>
+	</changeSet>
+
+</databaseChangeLog>
