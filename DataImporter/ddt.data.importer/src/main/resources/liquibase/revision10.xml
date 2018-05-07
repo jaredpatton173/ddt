@@ -7,18 +7,24 @@
 	<changeSet author="Jared Patton" id="1">
 		<createView catalogName="ddt" replaceIfExists="true"
 			schemaName="public" viewName="v_conversions_best_state">
-				SELECT ad_id, state, MAX(leads_in_state) 
-				FROM v_conversions_by_state
-				GROUP BY ad_id, state
+				SELECT ad_id, GROUP_CONCAT(state) as state, MAX(leads_in_state) as leads_in_state
+				FROM v_conversions_by_state v1
+				WHERE leads_in_state=(SELECT MAX(v2.leads_in_state)
+				FROM v_conversions_by_state v2
+				where v1.ad_id = v2.ad_id)
+				GROUP BY ad_id
 		</createView>
 	</changeSet>
 
 	<changeSet author="Jared Patton" id="2">
 		<createView catalogName="ddt" replaceIfExists="true"
 			schemaName="public" viewName="v_conversions_worst_state">
-				SELECT ad_id, state, MIN(leads_in_state)
-				FROM v_conversions_by_state
-				GROUP BY ad_id, state;
+				SELECT ad_id, GROUP_CONCAT(state) as state, MIN(leads_in_state) as leads_in_state
+				FROM v_conversions_by_state v1
+				WHERE leads_in_state=(SELECT MIN(v2.leads_in_state)
+				FROM v_conversions_by_state v2
+				where v1.ad_id = v2.ad_id)
+                GROUP BY ad_id
 		</createView>
 	</changeSet>
 

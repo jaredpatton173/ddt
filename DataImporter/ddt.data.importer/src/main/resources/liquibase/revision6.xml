@@ -20,13 +20,13 @@
 			schemaName="public" viewName="v_conversions">
 				SELECT leads.*
 				FROM leads
-				INNER JOIN orders ON orders.lead_id=leads.id;</createView>
+				INNER JOIN orders ON orders.lead_id=leads.id</createView>
 	</changeSet>
 
 	<changeSet author="Jared Patton" id="3">
 		<createView catalogName="ddt" replaceIfExists="true"
 			schemaName="public" viewName="v_conversion_rate_by_ad">
-				SELECT ads.id as ad_id, (SUM(ad_stats.daily_views)/COUNT(leads.id))*100 AS conversion_rate_percentage
+				SELECT ads.id as ad_id, (COUNT(leads.id)/SUM(ad_stats.daily_views))*100 AS conversion_rate_percentage
 				FROM ads
 				LEFT JOIN ad_stats ON ad_stats.id = ads.id
 				LEFT JOIN leads ON leads.ad_id = ad_stats.id
@@ -41,7 +41,7 @@
 				SELECT leads.ad_id as ad_id, state, count(leads.id) as leads_in_state
 				FROM leads
 				INNER JOIN orders ON orders.lead_id=leads.id
-				GROUP BY leads.ad_id, leads.state;
+				GROUP BY leads.ad_id, leads.state
 		</createView>
 	</changeSet>
 
@@ -66,24 +66,6 @@
 				LEFT JOIN leads ON leads.ad_id = ad_stats.id
 				LEFT JOIN orders ON orders.lead_id = leads.id
 				GROUP BY ads.ID
-		</createView>
-	</changeSet>
-
-	<changeSet author="Jared Patton" id="7">
-		<createView catalogName="ddt" replaceIfExists="true"
-			schemaName="public" viewName="v_conversions_best_state">
-				SELECT ads_id, state, MAX(leads_in_state)
-				FROM v_conversions_best_state
-				GROUP BY ads_id, state
-		</createView>
-	</changeSet>
-
-	<changeSet author="Jared Patton" id="8">
-		<createView catalogName="ddt" replaceIfExists="true"
-			schemaName="public" viewName="v_conversions_worst_state">
-				SELECT ads_id, state, MIN(leads_in_state)
-				FROM v_conversions_worst_state
-				GROUP BY ads_id, state;
 		</createView>
 	</changeSet>
 </databaseChangeLog>
