@@ -20,7 +20,7 @@ public class ArgumentEngine {
 		parser.addArgument("-i", "--import").type(Boolean.class).dest("import").help("Run the import tool against the defined directory");
 		parser.addArgument("-r", "--render-html").type(Boolean.class).dest("html").help("Run the html extraction tool against the defined directory");
 		parser.addArgument("-d", "--directory").required(true)
-		.dest("theDirectory").type(String.class).help("Specify the directory that contains the data files to process.");
+		.dest("theDirectory").type(String.class).help("Specify the directory that contains the data files to process. Or specify a file and directory to output the HTML report to.");
 
 		Namespace ns = parser.parseArgs(args);
 		directory = ns.get("theDirectory");

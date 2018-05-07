@@ -1,1 +1,43 @@
-Here is a test readme with some stuff in it.
+DDT Data Import and Extraction Tool
+
+This is a tool that is used specifically to import and export ad statistics, leads, and orders from a selected directory and database.
+
+This was built using Java 8, JPA, OpenCSV, Liquibase and managed with Maven and GitHub.
+
+To generate the database tables, Liquibase was used as part of the maven build process. Liquibase allows for complete version control over your database without having to use a third party application. Every single change made to the database is recorded and handled by Liquibase. The files used to generate the tables and views in the database may be found in the ddt/DataImporter/ddt.data.importer/src/main/resources/liquibase/ directory.
+
+Once the database was written and documented, the next step was to create a copy of those tables as Entity classes for JPA to use. Each entity class (found in ddt/DataImporter/ddt.data.importer/src/main/importer/entity/) represents one table. This allows us to use the JPA entity manager to simply create objects and merge them into the database without having to hand-write any SQL code ourselves.
+
+When the script is run to import data, it looks for the three files of statistics in any directory that the user specifies. If the files are not there we simply exit. 
+
+Each CSV file was mapped to a Bean class that allowed us to use OpenCSV to import the data within the files. The Bean class has a basic outline of what the CSV file itself looks like. Using that and the library importer we can quickly go through large CSV files and process them without having to write code to parse it ourselves.
+
+The other function of this script is to retrieve data from the database to generate an HTML file with the statistics requested. In order to generate this report in the easiest way possible, each section of the report was broken out into a view. Each view in the database (as specified in the Liquibase schema files) allows us to have an entity class that IS the report itself. Each 'helper' view is utilized by the v_ads_report view. The Java script simply queries the Entity class for the report view, and retrieves the data needed.
+
+Lastly the HTML page is assembled by iterating over the rows we have gotten back from the database view. We can iterate over a list of the entity class we got back and append HTML tags as needed to properly format and display information in an HTML table.
+
+
+Basic Usage
+
+usage: ArgumentEngine [-h] [-i {true,false}] [-r {true,false}]-d THEDIRECTORY
+
+named arguments:
+  -h, --help             show this help message and exit
+  -i {true,false}, --import {true,false}
+                         Run the import tool against the defined directory
+  -r {true,false}, --render-html {true,false}
+                         Run the html extraction  tool  against the defined
+                         directory
+  -d THEDIRECTORY, --directory THEDIRECTORY
+                         Specify  the  directory  that  contains  the  data
+                         files to process. Or specify  a file and directory
+                         to output the HTML report to.
+
+
+Program Flow
+
+Regardless of whether we are doing an import or export, the script always starts at the main App class. All arguments are then thrown into the ArgumentEngine and parsed. Based on the input, one of two things will happen.
+
+1.) The program will start the ImporterEngine. It will look for the three CSV files, parse them, then load them into the database.
+-or-
+2.) The program will start the HTMLEngine. This will look directly in the database, query the v_ads_report view, and begin processing the data to output the HTML table report.
