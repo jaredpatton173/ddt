@@ -5,12 +5,13 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="default"
 		transaction-type="RESOURCE_LOCAL">
-		<provider>
-		org.eclipse.persistence.jpa.PersistenceProvider
-	</provider>
-		<class>ddt.data.importer.entity.Ads</class>
-		<class>ddt.data.importer.entity.Leads</class>
-		<class>ddt.data.importer.entity.Orders</class>
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>ddt.data.importer.entity.Ad</class>
+		<class>ddt.data.importer.entity.Lead</class>
+		<class>ddt.data.importer.entity.Order</class>
+		<class>ddt.data.importer.entity.AdStats</class>
+		<class>ddt.data.importer.entity.CompositeKeyAdStats</class>
+		<class>ddt.data.importer.entity.AdsReport</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 			<property name="eclipselink.jdbc.driver"
