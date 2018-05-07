@@ -11,7 +11,6 @@ public class HTMLEngine {
 	
 	public HTMLEngine() {
 		List<AdsReport> rows = dao.generateAllTimeReport();
-		for(AdsReport a : rows)
-			System.out.println(a.getId());
+		
 	}
 }

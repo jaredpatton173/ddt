@@ -12,6 +12,7 @@ import javax.persistence.Table;
 public class AdsReport {
 	
 	@Id
+	@Column(name="ad_id")
 	private int id;
 	
 	@Column(name = "total_views")
