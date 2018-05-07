@@ -13,7 +13,6 @@ public class OrdersDAO {
 		em.getTransaction().begin();
 		em.merge(newOrder);
 		em.getTransaction().commit();
-		
 	}
 
 }

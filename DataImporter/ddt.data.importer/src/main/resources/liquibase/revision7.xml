@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+	
+		<changeSet author="Jared Patton" id="6">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_ads_report">
+				SELECT ads.id AS ad_id
+				, SUM(ad_stats.daily_views) AS total_views
+				, v_conversion_rate_by_ad.ctr_percentage AS ctr_percentage
+				, v_conversion_rate_by_ad.conversion_rate_pertentage AS conversion_rate_percentage
+				, v_total_ad_revenue.total_revenue AS total_revenue
+				, v_average_customer_age_conversions.average_age AS average_customer_age 
+				, v_conversions_best_state.state AS best_state
+				, v_conversions_worst_state.state AS worst_state
+				FROM ads
+				LEFT JOIN v_ad_ctrs ON v_ad_ctrs.ad_id = ads.id
+				LEFT JOIN v_conversion_rate_by_ad ON v_conversion_rate_by_ad.ad_id = ads.id
+				LEFT JOIN v_average_customer_age ON v_average_ad_age.ad_id = ads.id
+				LEFT JOIN v_total_ad_revenue ON v_total_ad_revenue.ad_id = ads.id
+				LEFT JOIN v_conversions_best_state ON v_conversions_best_state.ad_id = ads.id
+				LEFT JOIN v_conversions_worst_state ON v_conversions_worst_state.ad_id = ads.id
+				GROUP BY ads.id
+		</createView>
+	</changeSet>
+</databaseChangeLog>

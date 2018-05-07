@@ -38,7 +38,7 @@
 	<changeSet author="Jared Patton" id="4">
 		<createView catalogName="ddt" replaceIfExists="true"
 			schemaName="public" viewName="v_conversions_by_state">
-				SELECT leads.ad_id, state, count(leads.id) as leads_in_state
+				SELECT leads.ad_id as ad_id, state, count(leads.id) as leads_in_state
 				FROM leads
 				INNER JOIN orders ON orders.lead_id=leads.id
 				GROUP BY leads.ad_id, leads.state;
@@ -47,11 +47,12 @@
 
 	<changeSet author="Jared Patton" id="5">
 		<createView catalogName="ddt" replaceIfExists="true"
-			schemaName="public" viewName="v_average_ad_age">
-				SELECT ads.id, AVG(TIMESTAMPDIFF(YEAR,leads.date_of_birth,CURDATE())) as average_age
+			schemaName="public" viewName="v_average_customer_age_conversions">
+				SELECT ads.id as ad_id, AVG(TIMESTAMPDIFF(YEAR,leads.date_of_birth,CURDATE())) as average_age
 				FROM ads
 				LEFT JOIN ad_stats ON ad_stats.id = ads.id
 				LEFT JOIN leads ON leads.ad_id = ad_stats.id
+				INNER JOIN orders ON orders.lead_id = leads.id
 				GROUP BY ads.id
 		</createView>
 	</changeSet>
@@ -59,7 +60,7 @@
 	<changeSet author="Jared Patton" id="6">
 		<createView catalogName="ddt" replaceIfExists="true"
 			schemaName="public" viewName="v_total_ad_revenue">
-				SELECT ads.id, SUM((orders.unit_price * orders.quantity) + orders.shipping) AS total_revenue
+				SELECT ads.id as ad_id, SUM((orders.unit_price * orders.quantity) + orders.shipping) AS total_revenue
 				FROM ads
 				LEFT JOIN ad_stats ON ad_stats.id = ads.id
 				LEFT JOIN leads ON leads.ad_id = ad_stats.id
@@ -68,4 +69,21 @@
 		</createView>
 	</changeSet>
 
+	<changeSet author="Jared Patton" id="7">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_conversions_best_state">
+				SELECT ads_id, state, MAX(leads_in_state)
+				FROM v_conversions_best_state
+				GROUP BY ads_id, state
+		</createView>
+	</changeSet>
+
+	<changeSet author="Jared Patton" id="8">
+		<createView catalogName="ddt" replaceIfExists="true"
+			schemaName="public" viewName="v_conversions_worst_state">
+				SELECT ads_id, state, MIN(leads_in_state)
+				FROM v_conversions_worst_state
+				GROUP BY ads_id, state;
+		</createView>
+	</changeSet>
 </databaseChangeLog>
