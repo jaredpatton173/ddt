@@ -41,3 +41,5 @@ Regardless of whether we are doing an import or export, the script always starts
 1.) The program will start the ImporterEngine. It will look for the three CSV files, parse them, then load them into the database.
 -or-
 2.) The program will start the HTMLEngine. This will look directly in the database, query the v_ads_report view, and begin processing the data to output the HTML table report.
+
+Note: There are further explanations of the log files and how to run this program that has been emailed to you.
