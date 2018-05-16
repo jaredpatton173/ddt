@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
 	<changeSet author="Jared Patton" id="1">
-		<createView catalogName="ddt" replaceIfExists="true"
+		<createView catalogName="${catalog}" replaceIfExists="true"
 			schemaName="public" viewName="v_ads_report">
 				SELECT ads.id AS ad_id
 				, SUM(ad_stats.daily_views) AS total_views

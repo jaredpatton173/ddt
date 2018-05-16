@@ -20,7 +20,7 @@
 	</changeSet>
 
 	<changeSet id="3" author="Jared Patton">
-		<renameTable catalogName="ddt" newTableName="ads"
+		<renameTable catalogName="${catalog}" newTableName="ads"
 			oldTableName="ad_stats" schemaName="public" />
 	</changeSet>
 </databaseChangeLog>

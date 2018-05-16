@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
 	<changeSet author="Jared Patton" id="1">
-		<createView catalogName="ddt" replaceIfExists="true"
+		<createView catalogName="${catalog}" replaceIfExists="true"
 			schemaName="public" viewName="v_conversions_best_state">
 				SELECT ad_id, state, MAX(leads_in_state) 
 				FROM v_conversions_by_state
@@ -14,7 +14,7 @@
 	</changeSet>
 
 	<changeSet author="Jared Patton" id="2">
-		<createView catalogName="ddt" replaceIfExists="true"
+		<createView catalogName="${catalog}" replaceIfExists="true"
 			schemaName="public" viewName="v_conversions_worst_state">
 				SELECT ad_id, state, MIN(leads_in_state)
 				FROM v_conversions_by_state

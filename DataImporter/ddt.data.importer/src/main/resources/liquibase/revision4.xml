@@ -10,12 +10,12 @@
 	</changeSet>
 
 	<changeSet id="2" author="Jared Patton">
-		<dropPrimaryKey catalogName="ddt"
+		<dropPrimaryKey catalogName="${catalog}"
 			constraintName="fk_lead_ad" schemaName="public" tableName="ad_stats" />
 	</changeSet>
 
 	<changeSet id="3" author="Jared Patton">
-		<addPrimaryKey catalogName="ddt" columnNames="id, date"
+		<addPrimaryKey catalogName="${catalog}" columnNames="id, date"
 			constraintName="pk_ad_stats" schemaName="public" tableName="ad_stats"
 			tablespace="Changing primary key to composite primary key." />
 	</changeSet>
